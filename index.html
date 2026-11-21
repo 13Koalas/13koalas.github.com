@@ -4,11 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fiilimsi Avcısı</title>
+<!-- Futura ve Helvetica benzeri yedek Google Fontlar (her cihazda kusursuz görünüm için) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Jost:wght@700;800&display=swap" rel="stylesheet">
 <style>
   /* ===== RENKLER (kareli defter teması) ===== */
   :root {
     --kagit: #f4f7fb; --cizgi: #d3deec; --murekkep: #1f3a93; --yazi: #1d2433;
     --kirmizi: #d7263d; --yesil: #1b8a5a; --sari: #ffe45e; --kart: #ffffff; --turuncu: #c76a00;
+    --font-baslik: "Futura", "Jost", "Century Gothic", sans-serif;
+    --font-metin: "Helvetica Neue", "Helvetica", "Inter", Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root { --kagit: #151b2b; --cizgi: #232c44; --murekkep: #9db4ff; --yazi: #e8ecf6;
@@ -18,15 +24,15 @@
   * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh; color: var(--yazi);
-    font-family: "Segoe UI", "Trebuchet MS", system-ui, sans-serif; font-size: 1rem; line-height: 1.5;
+    font-family: var(--font-metin); font-size: 1rem; line-height: 1.5;
     user-select: none; -webkit-user-select: none; touch-action: manipulation;
     background-color: var(--kagit);
     background-image: linear-gradient(var(--cizgi) 1px, transparent 1px), linear-gradient(90deg, var(--cizgi) 1px, transparent 1px);
     background-size: 28px 28px;
   }
   main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
-  h1 { font-family: "Segoe Print", "Comic Sans MS", "Bradley Hand", cursive; font-size: 3.4rem; color: var(--murekkep); margin: 0 0 4px; line-height: 1.1; }
-  h2 { font-family: "Segoe Print", "Comic Sans MS", "Bradley Hand", cursive; font-size: 2rem; color: var(--murekkep); margin: 0 0 8px; }
+  h1 { font-family: var(--font-baslik); font-weight: 800; letter-spacing: -0.02em; font-size: 3.4rem; color: var(--murekkep); margin: 0 0 4px; line-height: 1.1; }
+  h2 { font-family: var(--font-baslik); font-weight: 700; letter-spacing: -0.01em; font-size: 2rem; color: var(--murekkep); margin: 0 0 8px; }
   .baslik { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
   .kart { background: var(--kart); border: 2px solid var(--murekkep); border-radius: 12px;
           padding: 22px; margin: 18px 0; box-shadow: 5px 5px 0 var(--murekkep); }
@@ -78,7 +84,7 @@
   .geri.ok { border-color: var(--yesil); } .geri.no { border-color: var(--kirmizi); }
   .geri b.d { color: var(--yesil); } .geri b.y { color: var(--kirmizi); }
   .tuzak { display: inline-block; background: var(--sari); color: #1d2433; padding: 0 10px; border-radius: 6px; font-weight: 800; margin-bottom: 4px; }
-  .buyuk { font-family: "Segoe Print", "Comic Sans MS", cursive; font-size: 4.2rem; color: var(--murekkep); margin: 0; line-height: 1.1; }
+  .buyuk { font-family: var(--font-baslik); font-weight: 800; font-size: 4.2rem; color: var(--murekkep); margin: 0; line-height: 1.1; }
   .salla { animation: salla .35s; }
   @keyframes salla { 20%,60% { transform: translateX(-8px); } 40%,80% { transform: translateX(8px); } }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
@@ -149,14 +155,6 @@
 </main>
 
 <script>
-/* =====================================================
-   SORU LİSTESİ — yeni soru eklemek için sadece bir satır ekle!
-   [seviye, cümle, tür, açıklama, tuzak?]
-   seviye : "kolay", "orta" veya "zor"
-   cümle  : fiilimsiyi { } içine yaz
-   tür    : "isim", "sifat", "zarf" veya "degil"
-   tuzak  : tuzak soruysa 1 yaz (yoksa boş bırak)
-   ===================================================== */
 const SORULAR = [
   // ---------- KOLAY ----------
   ["kolay", "{Koşarak} okula yetişti.", "zarf", "-arak eki: Zarf-fiil. Yetişme işinin nasıl olduğunu anlatıyor."],
@@ -195,13 +193,12 @@ const SORULAR = [
 
 const TURLER = { isim: "İsim-fiil", sifat: "Sıfat-fiil", zarf: "Zarf-fiil", degil: "Fiilimsi değil" };
 const SEV_AD = { kolay: "Kolay", orta: "Orta", zor: "Zor" };
-const CAN_SAYISI = 3;   // canı değiştirmek istersen bu sayıyı değiştir
+const CAN_SAYISI = 3;
 
-let secim = [];   // seviyelere dokunma sırası
+let secim = [];
 let liste, sira, puan, can, seri, dogru, cevaplandi;
 const $ = id => document.getElementById(id);
 
-// Listeyi karıştır (Fisher-Yates)
 function karistir(dizi) {
   for (let i = dizi.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -215,7 +212,6 @@ function ekranGoster(ad) {
   window.scrollTo(0, 0);
 }
 
-/* ---------- SEVİYE SEÇİMİ ---------- */
 function secimGuncelle() {
   document.querySelectorAll(".seviye").forEach(b => {
     const i = secim.indexOf(b.dataset.s);
@@ -239,9 +235,7 @@ document.querySelectorAll(".seviye").forEach(b => {
   });
 });
 
-/* ---------- OYUN ---------- */
 function basla() {
-  // Seçilen sırayla seviyeleri art arda diz, her seviyenin içini karıştır
   liste = secim.flatMap(s => karistir(SORULAR.filter(q => q.sev === s)));
   sira = 0; puan = 0; can = CAN_SAYISI; seri = 0; dogru = 0;
   ekranGoster("oyun");
@@ -259,7 +253,6 @@ function soruGoster() {
   cevaplandi = false;
   const s = liste[sira];
   $("soruKart").classList.remove("salla");
-  // { } işaretlerini <mark> etiketine çevir
   $("cumle").innerHTML = s.cumle.replace(/\{(.+?)\}/g, "<mark>$1</mark>");
   $("sayac").innerHTML = '<span class="chip ' + s.sev + '">' + SEV_AD[s.sev] + "</span>Soru " + (sira + 1) + " / " + liste.length;
   $("geri").hidden = true;
@@ -285,7 +278,7 @@ function cevapla(secilen) {
 
   if (dogruMu) {
     dogru++; seri++;
-    puan += 10 + (seri >= 3 ? 5 : 0);   // 3 doğru üst üste = bonus
+    puan += 10 + (seri >= 3 ? 5 : 0);
   } else {
     seri = 0; can--;
     $("soruKart").classList.add("salla");
@@ -331,7 +324,6 @@ function bitir() {
   $("bitisMesaj").textContent = mesaj;
 }
 
-// Tam ekran aç/kapat (akıllı tahtada daha geniş görünür)
 $("tamEkran").addEventListener("click", () => {
   if (document.fullscreenElement) document.exitFullscreen();
   else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
