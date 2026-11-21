@@ -13,12 +13,19 @@
   :root {
     --kagit: #f4f7fb; --cizgi: #d3deec; --murekkep: #1f3a93; --yazi: #1d2433;
     --kirmizi: #d7263d; --yesil: #1b8a5a; --sari: #ffe45e; --kart: #ffffff; --turuncu: #c76a00;
+    /* Koyu seviye renkleri */
+    --sev-kolay: #145a32;
+    --sev-orta: #9a6700;
+    --sev-zor: #8b0000;
     --font-baslik: "Futura", "Jost", "Century Gothic", sans-serif;
     --font-metin: "Helvetica Neue", "Helvetica", "Inter", Arial, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root { --kagit: #151b2b; --cizgi: #232c44; --murekkep: #9db4ff; --yazi: #e8ecf6;
-            --kirmizi: #ff6b7d; --yesil: #4fd197; --sari: #6b5d10; --kart: #1d2438; --turuncu: #ffb04d; }
+            --kirmizi: #ff6b7d; --yesil: #4fd197; --sari: #6b5d10; --kart: #1d2438; --turuncu: #ffb04d;
+            --sev-kolay: #1e8449;
+            --sev-orta: #b7791f;
+            --sev-zor: #a93226; }
   }
   html { font-size: clamp(18px, 1.5vw + 8px, 32px); }
   * { box-sizing: border-box; }
@@ -52,13 +59,21 @@
   @media (hover: hover) { .ana:hover:not(:disabled) { background: var(--kirmizi) !important; color: #fff !important; } }
   #tamEkran { min-height: 3rem; padding: 8px 14px; white-space: nowrap; font-size: .85rem; }
 
-  /* ===== SEVİYE SEÇİMİ ===== */
+  /* ===== SEVİYE SEÇİMİ (Koyu Yeşil, Koyu Sarı, Koyu Kırmızı) ===== */
   .seviyeler { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 14px; margin: 12px 0; }
   .seviye { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 1.4rem; padding: 16px 10px; position: relative; }
-  .seviye small { font-weight: 600; font-size: .75rem; opacity: .85; }
-  .seviye.secili { background: var(--murekkep); color: var(--kart); }
+  .seviye small { font-weight: 600; font-size: .75rem; opacity: .9; }
+
+  .seviye[data-s="kolay"] { color: var(--sev-kolay); border-color: var(--sev-kolay); box-shadow: 0 4px 0 var(--sev-kolay); }
+  .seviye[data-s="orta"] { color: var(--sev-orta); border-color: var(--sev-orta); box-shadow: 0 4px 0 var(--sev-orta); }
+  .seviye[data-s="zor"] { color: var(--sev-zor); border-color: var(--sev-zor); box-shadow: 0 4px 0 var(--sev-zor); }
+
+  .seviye[data-s="kolay"].secili { background: var(--sev-kolay); color: #ffffff; }
+  .seviye[data-s="orta"].secili { background: var(--sev-orta); color: #ffffff; }
+  .seviye[data-s="zor"].secili { background: var(--sev-zor); color: #ffffff; }
+
   .rozet { position: absolute; top: -12px; right: -12px; width: 2.2rem; height: 2.2rem; line-height: 2.2rem; border-radius: 50%;
-           background: var(--kirmizi); color: #fff; font-size: 1.2rem; box-shadow: 0 2px 0 rgba(0,0,0,.25); }
+           background: var(--murekkep); color: #fff; font-size: 1.2rem; box-shadow: 0 2px 0 rgba(0,0,0,.25); border: 2px solid #fff; }
   .rozet:empty { display: none; }
   .sira { font-weight: 800; color: var(--murekkep); min-height: 1.5em; }
 
@@ -88,8 +103,13 @@
   .ilerleme { height: 12px; background: var(--cizgi); border-radius: 6px; overflow: hidden; margin: 8px 0; }
   .ilerleme div { height: 100%; width: 0; background: repeating-linear-gradient(45deg, var(--murekkep) 0 10px, var(--kirmizi) 10px 20px); transition: width .3s; }
   .soru { margin: 0 0 12px; color: var(--murekkep); font-weight: 800; }
-  .chip { display: inline-block; padding: 1px 12px; border-radius: 999px; font-size: .8rem; color: #fff; margin-right: 8px; }
-  .chip.kolay { background: var(--yesil); } .chip.orta { background: var(--turuncu); } .chip.zor { background: var(--kirmizi); }
+  
+  /* Soru üzerindeki seviye etiketleri (Koyu Yeşil, Koyu Sarı, Koyu Kırmızı) */
+  .chip { display: inline-block; padding: 3px 14px; border-radius: 999px; font-size: .85rem; font-weight: 800; color: #fff; margin-right: 10px; letter-spacing: 0.02em; box-shadow: 0 2px 0 rgba(0,0,0,.2); }
+  .chip.kolay { background: var(--sev-kolay); }
+  .chip.orta { background: var(--sev-orta); }
+  .chip.zor { background: var(--sev-zor); }
+
   .cumle { font-size: 2rem; font-weight: 700; margin: 10px 0 6px; line-height: 1.6; }
   /* işaretli fiilimsi kutu içinde */
   mark { color: inherit; padding: 2px 10px; margin: 0 2px; border: 3px solid var(--kirmizi); border-radius: 8px;
