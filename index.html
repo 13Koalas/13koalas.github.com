@@ -68,6 +68,23 @@
 
   /* ===== OYUN ===== */
   .ust { font-size: 1.3rem; display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 800; flex-wrap: wrap; }
+  
+  /* İçi boş ve kalın interrobang can göstergesi */
+  .can-ikon {
+    display: inline-block;
+    font-weight: 900;
+    font-size: 1.8rem;
+    line-height: 1;
+    margin-right: 6px;
+    color: var(--kart);
+    -webkit-text-stroke: 2.2px var(--kirmizi);
+    paint-order: stroke fill;
+  }
+  .can-ikon.bos {
+    -webkit-text-stroke: 2px var(--cizgi);
+    opacity: 0.55;
+  }
+
   .ilerleme { height: 12px; background: var(--cizgi); border-radius: 6px; overflow: hidden; margin: 8px 0; }
   .ilerleme div { height: 100%; width: 0; background: repeating-linear-gradient(45deg, var(--murekkep) 0 10px, var(--kirmizi) 10px 20px); transition: width .3s; }
   .soru { margin: 0 0 12px; color: var(--murekkep); font-weight: 800; }
@@ -243,7 +260,9 @@ function basla() {
 }
 
 function durumYaz() {
-  $("canlar").textContent = "❤️".repeat(can) + "🖤".repeat(CAN_SAYISI - can);
+  $("canlar").innerHTML =
+    '<span class="can-ikon">‽</span>'.repeat(can) +
+    '<span class="can-ikon bos">‽</span>'.repeat(CAN_SAYISI - can);
   $("puan").textContent = puan;
   $("seri").textContent = seri;
   $("bar").style.width = (sira / liste.length * 100) + "%";
@@ -313,7 +332,7 @@ function bitir() {
   ekranGoster("bitis");
   const kazandi = can > 0;
   const cevaplanan = sira + 1;
-  const oran = dogru / cevaplanan;  
+  const oran = dogru / cevaplanan;
   $("bitisBaslik").textContent = kazandi ? "Oyun bitti!" : "Canların bitti!";
   $("bitisPuan").textContent = puan + " puan";
   $("bitisDetay").textContent = cevaplanan + " sorudan " + dogru + " tanesini doğru bildin.";
@@ -334,4 +353,4 @@ $("sonraki").addEventListener("click", sonraki);
 secimGuncelle();
 </script>
 </body>
-</html>      
+</html>
